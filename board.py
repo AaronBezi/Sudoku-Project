@@ -39,18 +39,37 @@ class Board:
                 for cell in i:
                     cell.draw(self.screen)
 
-
     def select(self, row, col):
-        pass
+        self.selected_row = row
+        self.selected_col = col
 
-    def click(self, row, col):
-        pass
+    def move_selection(self, direction):
+        if self.selected_row is None:
+            self.selected_row = 0
+            self.selected_col = 0
+            return
 
-    def clear(self):
-        pass
+        if direction == "up":
+            self.selected_row = (self.selected_row - 1) % 9
+        elif direction == "down":
+            self.selected_row = (self.selected_row + 1) % 9
+        elif direction == "left":
+            self.selected_col = (self.selected_col - 1) % 9
+        elif direction == "right":
+            self.selected_col = (self.selected_col + 1) % 9
+
+    def click(self, x, y):
+        if x < self.width and y < self.height:
+            cell_width = self.width // 9
+            cell_height = self.height // 9
+            return (y // cell_height, x // cell_width)
+        return None
 
     def sketch(self, value):
-        pass
+        if (self.selected_row is not None and self.selected_col is not None and
+                self.original_board[self.selected_row][self.selected_col] == 0 and
+                self.cells[self.selected_row][self.selected_col] == 0):
+            self.sketched_numbers[self.selected_row][self.selected_col] = value
 
     def place_number(self, number):
         pass
